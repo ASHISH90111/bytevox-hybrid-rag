@@ -1,0 +1,22 @@
+[
+    {
+        "question": "What is NexusPipeline?",
+        "expected_source": "01_nexus_ai_overview.txt"
+    },
+    {
+        "question": "Which authentication methods are supported?",
+        "expected_source": "07_nexus_security_compliance.txt"
+    },
+    {
+        "question": "How do I install the Python SDK?",
+        "expected_source": "06_nexus_sdk_guide.txt"
+    },
+    {
+        "question": "What security certifications does Nexus AI support?",
+        "expected_source": "07_nexus_security_compliance.txt"
+    },
+    {
+        "question": "What are the ML engineering best practices?",
+        "expected_source": "08_nexus_ml_best_practices.txt"
+    }
+]

@@ -1,0 +1,27 @@
+# Virtual Environment
+venv/
+
+# Environment Variables
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Chroma Database
+data/chroma_db/
+
+# SQLite Logs
+query_logs.db
+
+# VS Code
+.vscode/
+
+# Test Cache
+.pytest_cache/
+
+# OS Files
+.DS_Store
+Thumbs.db
