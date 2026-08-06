@@ -2,6 +2,19 @@
 
 A production-oriented Retrieval-Augmented Generation (RAG) system that answers user questions using a collection of documents. The system combines semantic retrieval with lexical retrieval (Hybrid Search) and exposes the functionality through a FastAPI REST API.
 
+
+# ByteVox Hybrid RAG
+
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+
+![FastAPI](https://img.shields.io/badge/FastAPI-0.116-green)
+
+![ChromaDB](https://img.shields.io/badge/VectorDB-ChromaDB-orange)
+
+![Groq](https://img.shields.io/badge/LLM-Groq-red)
+
+![License](https://img.shields.io/badge/license-MIT-blue)
+
 ---
 
 # Project Overview
@@ -175,7 +188,7 @@ SQLite logging records
 # Project Structure
 
 ```
-bytevox-rag/
+bytevox-hybrid-rag
 
 │
 ├── app/
@@ -212,7 +225,7 @@ bytevox-rag/
 Clone the repository
 
 ```bash
-git clone https://github.com/ASHISH90111/bytevox-hybrid-rag
+git clone https://github.com/ASHISH90111/bytevox-hybrid-rag.git
 ```
 
 Move into the project
