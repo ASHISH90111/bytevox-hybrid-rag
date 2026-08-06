@@ -212,7 +212,7 @@ bytevox-rag/
 Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/ASHISH90111/bytevox-hybrid-rag
 ```
 
 Move into the project
