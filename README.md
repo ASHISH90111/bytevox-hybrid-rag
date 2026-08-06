@@ -231,7 +231,7 @@ git clone https://github.com/ASHISH90111/bytevox-hybrid-rag.git
 Move into the project
 
 ```bash
-cd bytevox-rag
+cd bytevox-hybrid-rag
 ```
 
 Create virtual environment
