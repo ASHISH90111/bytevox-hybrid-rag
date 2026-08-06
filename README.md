@@ -1,38 +1,30 @@
-# ByteVox AI/ML Engineering Technical Assignment
+# ByteVox Hybrid RAG
 
-A production-oriented Retrieval-Augmented Generation (RAG) system that answers user questions using a collection of documents. The system combines semantic retrieval with lexical retrieval (Hybrid Search) and exposes the functionality through a FastAPI REST API.
-
-
-
+A production-oriented Retrieval-Augmented Generation (RAG) system that answers user questions using PDF, Markdown, and Text documents. The system combines **Hybrid Retrieval (BM25 + Semantic Search + Reciprocal Rank Fusion)** with **Groq Llama 3.1** to generate grounded, context-aware responses through a FastAPI REST API.
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
-
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.116-green)
-
 ![ChromaDB](https://img.shields.io/badge/VectorDB-ChromaDB-orange)
-
 ![Groq](https://img.shields.io/badge/LLM-Groq-red)
-
-![License](https://img.shields.io/badge/license-MIT-blue)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 ---
 
 # Project Overview
 
-This project implements a Retrieval-Augmented Generation (RAG) pipeline capable of:
+This project was developed as part of the **ByteVox AI/ML Engineering Internship Technical Assignment**.
+
+The system implements a complete Retrieval-Augmented Generation (RAG) pipeline capable of:
 
 - Ingesting PDF, Markdown, and Text documents
 - Splitting documents into semantic chunks
 - Generating embeddings using BAAI BGE Small
 - Storing vectors in ChromaDB
-- Performing Hybrid Retrieval using:
-  - Semantic Search
-  - BM25
-  - Reciprocal Rank Fusion (RRF)
+- Performing Hybrid Retrieval
 - Generating grounded answers using Groq Llama 3.1
-- Exposing a REST API with FastAPI
-- Logging queries into SQLite
-- Evaluating retrieval performance using benchmark questions
+- Exposing a REST API using FastAPI
+- Logging user queries into SQLite
+- Evaluating retrieval performance with benchmark questions
 
 ---
 
@@ -40,9 +32,9 @@ This project implements a Retrieval-Augmented Generation (RAG) pipeline capable 
 
 ## Document Ingestion
 
-Supports
+Supported document formats:
 
-- PDF
+- PDF (.pdf)
 - Markdown (.md)
 - Plain Text (.txt)
 
@@ -51,60 +43,60 @@ Supports
 ## Intelligent Chunking
 
 - Recursive Character Text Splitter
-- Chunk Size: 500 characters
-- Chunk Overlap: 100 characters
+- Chunk Size: **500**
+- Chunk Overlap: **100**
 
 ---
 
 ## Embedding Model
 
-Model
+**BAAI/bge-small-en-v1.5**
 
-BAAI/bge-small-en-v1.5
-
-Features
+Why this model?
 
 - Lightweight
 - Fast inference
-- High-quality semantic embeddings
-- Normalized embeddings
+- High-quality semantic retrieval
+- Open-source
 
 ---
 
 ## Vector Database
 
-ChromaDB
+**ChromaDB**
 
-Stores
+Stores:
 
 - Document embeddings
 - Metadata
-- Source information
+- Source filename
 - Chunk IDs
 
 ---
 
 ## Hybrid Retrieval
 
-Instead of relying only on semantic search, this project combines
+Instead of relying only on semantic similarity, this project combines:
 
+- Semantic Search (ChromaDB)
 - BM25 Retrieval
-- Embedding Retrieval
 - Reciprocal Rank Fusion (RRF)
 
-This improves retrieval quality by combining lexical matching with semantic similarity.
+This approach improves retrieval quality by combining semantic understanding with keyword matching.
 
 ---
 
 ## Large Language Model
 
-Groq API
+**Groq API**
 
-Model
+Model:
 
+```
 llama-3.1-8b-instant
+```
 
-Used for
+Used for:
 
 - Grounded answer generation
 - Low-latency inference
@@ -112,23 +104,45 @@ Used for
 
 ---
 
-## REST API
+# System Pipeline
 
-Implemented using FastAPI.
+```text
+User Question
+      │
+      ▼
+Hybrid Retrieval
+(BM25 + ChromaDB)
+      │
+      ▼
+Reciprocal Rank Fusion
+      │
+      ▼
+Top Retrieved Chunks
+      │
+      ▼
+Groq Llama 3.1
+      │
+      ▼
+Grounded Response
+```
 
-Endpoint
+---
 
-POST
+# REST API
+
+Built using **FastAPI**.
+
+## Endpoint
 
 ```
-/query
+POST /query
 ```
 
 Example Request
 
 ```json
 {
-    "question":"What is NexusPipeline?"
+  "question": "What is NexusPipeline?"
 }
 ```
 
@@ -136,12 +150,12 @@ Example Response
 
 ```json
 {
-    "answer":"A directed acyclic graph (DAG) execution engine...",
-    "sources":[
-        "01_nexus_ai_overview.txt"
-    ],
-    "retrieved_chunks":5,
-    "latency_ms":420.35
+  "answer": "A directed acyclic graph (DAG) execution engine for building multi-step ML workflows...",
+  "sources": [
+    "01_nexus_ai_overview.txt"
+  ],
+  "retrieved_chunks": 5,
+  "latency_ms": 421.37
 }
 ```
 
@@ -153,29 +167,32 @@ http://127.0.0.1:8000/docs
 
 ---
 
-## Evaluation
+# Evaluation
 
-Evaluation includes
-
-- 5 benchmark questions
-- Retrieval accuracy
-- Expected source verification
-- Average response latency
+The project includes an automated evaluation framework with benchmark questions.
 
 Current Results
 
-| Metric | Value |
-|----------|---------|
+| Metric | Result |
+|---------|--------|
 | Benchmark Questions | 5 |
 | Passed | 5 |
-| Retrieval Accuracy | 100% |
-| Average Latency | ~420 ms |
+| Retrieval Accuracy | **100%** |
+| Average Latency | **~420 ms** |
+
+Run the evaluation
+
+```bash
+python -m app.evaluation
+```
 
 ---
 
-## Logging
+# SQLite Logging
 
-SQLite logging records
+Every API request is automatically logged.
+
+Logged information:
 
 - Timestamp
 - User Question
@@ -183,13 +200,18 @@ SQLite logging records
 - Retrieved Sources
 - Response Latency
 
+View logs
+
+```bash
+python -m app.view_logs
+```
+
 ---
 
 # Project Structure
 
-```
-bytevox-hybrid-rag
-
+```text
+bytevox-hybrid-rag/
 │
 ├── app/
 │   ├── api.py
@@ -204,18 +226,23 @@ bytevox-hybrid-rag
 │   ├── retriever.py
 │   └── view_logs.py
 │
+├── architecture/
+│   └── architecture.png
+│
 ├── data/
-│   ├── docs/
-│   └── chroma_db/
+│   └── docs/
+│
+├── docs/
+│   ├── design_decisions.md
+│   └── production_architecture.md
 │
 ├── evaluation/
 │   └── benchmark.json
 │
-├── requirements.txt
-│
 ├── main.py
-│
-└── README.md
+├── requirements.txt
+├── README.md
+└── reflection.md
 ```
 
 ---
@@ -234,7 +261,7 @@ Move into the project
 cd bytevox-hybrid-rag
 ```
 
-Create virtual environment
+Create a virtual environment
 
 Windows
 
@@ -244,16 +271,8 @@ python -m venv venv
 
 Activate
 
-Windows
-
 ```bash
 venv\Scripts\activate
-```
-
-Linux
-
-```bash
-source venv/bin/activate
 ```
 
 Install dependencies
@@ -276,29 +295,19 @@ GROQ_API_KEY=YOUR_GROQ_API_KEY
 
 # Running the Project
 
-## Step 1
-
 Generate embeddings
 
 ```bash
 python -m app.embeddings
 ```
 
----
-
-## Step 2
-
-Start FastAPI
+Start the FastAPI server
 
 ```bash
 uvicorn main:app --reload
 ```
 
----
-
-## Step 3
-
-Open Swagger
+Open Swagger UI
 
 ```
 http://127.0.0.1:8000/docs
@@ -306,41 +315,15 @@ http://127.0.0.1:8000/docs
 
 ---
 
-# Running Evaluation
-
-```bash
-python -m app.evaluation
-```
-
-Example Output
-
-```
-Accuracy : 100%
-
-Average Latency : 421 ms
-```
-
----
-
-# Viewing Logs
-
-```bash
-python -m app.view_logs
-```
-
----
-
 # Technologies Used
 
-## Backend
+### Backend
 
-- Python 3.11
+- Python
 - FastAPI
 - Uvicorn
 
----
-
-## AI & Machine Learning
+### AI & Machine Learning
 
 - LangChain
 - HuggingFace
@@ -348,36 +331,47 @@ python -m app.view_logs
 - Groq API
 - Llama 3.1 8B Instant
 
----
-
-## Retrieval
+### Retrieval
 
 - ChromaDB
 - BM25
-- Reciprocal Rank Fusion
+- Reciprocal Rank Fusion (RRF)
 
----
-
-## Database
+### Database
 
 - SQLite
 - ChromaDB
 
----
-
-## Document Processing
+### Document Processing
 
 - PyMuPDF
 - Markdown
-- LangChain Document Loader
 
 ---
 
-## Evaluation
+# Assignment Deliverables
 
-- Benchmark Questions
-- Retrieval Accuracy
-- Response Latency
+- ✅ PDF, Markdown and TXT document support
+- ✅ Hybrid Retrieval (BM25 + Semantic Search + RRF)
+- ✅ FastAPI REST API
+- ✅ Evaluation Framework
+- ✅ Design Decisions Document
+- ✅ Production Architecture Document
+- ✅ Architecture Diagram
+- ✅ Reflection Write-up
+- ✅ SQLite Query Logging (Bonus)
+
+---
+
+# Documentation
+
+| File | Description |
+|------|-------------|
+| README.md | Project setup and usage |
+| docs/design_decisions.md | Engineering design decisions |
+| docs/production_architecture.md | Production-ready architecture |
+| architecture/architecture.png | Architecture diagram |
+| reflection.md | Assignment reflection |
 
 ---
 
@@ -385,35 +379,17 @@ python -m app.view_logs
 
 - Cross-Encoder Reranking
 - Query Expansion
-- Streaming Responses
 - Redis Cache
-- Kubernetes Deployment
-- Multi-user Authentication
-- Dashboard for Retrieval Metrics
-
----
-
-# Assignment Coverage
-
-| Requirement | Status |
-|-------------|---------|
-| PDF Support | ✅ |
-| Markdown Support | ✅ |
-| TXT Support | ✅ |
-| Hybrid Retrieval | ✅ |
-| REST API | ✅ |
-| Evaluation Script | ✅ |
-| Design Document | ✅ |
-| Architecture | ✅ |
-| Reflection | ✅ |
-| SQLite Logging | ✅ Bonus |
+- Streaming Responses
+- User Authentication
+- Monitoring Dashboard
 
 ---
 
 # Author
 
-Ashish
+**Ashish**
 
-NIT Jalandhar
+B.Tech, National Institute of Technology (NIT) Jalandhar
 
-AI/ML Engineering Internship Assignment – ByteVox
+Developed as part of the **ByteVox AI/ML Engineering Internship Technical Assignment**.
