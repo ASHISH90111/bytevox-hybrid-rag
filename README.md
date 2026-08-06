@@ -3,7 +3,7 @@
 A production-oriented Retrieval-Augmented Generation (RAG) system that answers user questions using a collection of documents. The system combines semantic retrieval with lexical retrieval (Hybrid Search) and exposes the functionality through a FastAPI REST API.
 
 
-# ByteVox Hybrid RAG
+
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 
